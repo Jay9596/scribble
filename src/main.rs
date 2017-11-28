@@ -30,19 +30,18 @@ fn main() {
             }
         },
         4 => {
-
                 let title = &args[2];
                 let text = &args[3];
             if &args[1] == "post" {
                 println!("Posting new note {}",title);
                 post_note(title, text);
-            } else if &args[1] == "patch" {
+            } else if &args[1] == "patch" || &args[1] == "put" {
                 println!("Patching note {}", title);
                 patch_note(title, text);
-            }else {
+            } else {
                 print_usage();
             }
-        }
+        },
         _ => {}
     }
 }

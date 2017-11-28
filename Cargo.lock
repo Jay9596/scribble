@@ -1,5 +1,4 @@
-[root]
+[[package]]
 name = "scribble"
 version = "0.1.0"
-authors = ["Jay Shah <jayshah.9596@gmail.com>"]
 
