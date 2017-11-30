@@ -12,6 +12,7 @@ fn main() {
             let title = &args[1];
            match &title[..] {
                "get" | "post" | "patch" | "delete" => {},
+               "list" => get_list(),
                _ => {
                    println!("Fetching note :{}", title);
                    get_note(title);
@@ -99,6 +100,27 @@ fn get_file_name(title: &str) -> String {
     let mut file_name = String::from(title);
     file_name.push_str(".txt");
     file_name
+}
+
+fn get_list() {
+    println!("Notes: ");
+    let directory = Path::new(".");
+    let notes : Vec<std::path::PathBuf> = fs::read_dir(&directory).unwrap()
+                .map(|x| x.unwrap().path())
+               .collect();
+    for note in notes {
+        if let Some(name) = note.file_name() {
+            if let Some(name_str) = name.to_str() {
+                let name = String::from(name_str);
+                let f_name: Vec<&str> = name.split('.').collect();
+                if f_name.len() == 2 {
+                    if f_name[1] == "txt" {
+                        println!("- {}", f_name[0]);
+                    }
+                }
+            } 
+        }
+    }
 }
 
 fn print_usage() {
