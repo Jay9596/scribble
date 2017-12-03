@@ -13,6 +13,7 @@ fn main() {
            match &title[..] {
                "get" | "post" | "patch" | "delete" => {},
                "list" => get_list(),
+               "help" => print_usage(),
                _ => {
                    println!("Fetching note :{}", title);
                    get_note(title);
@@ -124,13 +125,15 @@ fn get_list() {
 }
 
 fn print_usage() {
-    println!("usage: 
-scribble <command> [<args>]\nscribble <title>\tPrints the note.
+    println!("Usage: 
+scribble <title>\tPrints the note.
+scribble list\tList all notes in directory.
 
+scribble <command> [<args>]\n
 Commands:
 post   <title> <text>\tWrites the text in the note.
 get    <title>       \tPrints the note.
 patch  <title> <text>\tUpdates <text> of note.
 delete <title>       \tDelete the note.
-help                 \tPrints help");
+help                 \tPrints help\n");
 }
