@@ -2,6 +2,7 @@ use std::env;
 use std::fs;
 use std::fs::{File, OpenOptions};
 use std::path::Path;
+use std::process;
 use std::io::{Read, Write};
 
 fn main() {
@@ -35,7 +36,7 @@ fn main() {
                 let title = &args[2];
                 let text = &args[3];
             if &args[1] == "post" {
-                println!("Posting new note {}",title);
+                println!("Posting new note :{}",title);
                 post_note(title, text);
             } else if &args[1] == "patch" || &args[1] == "put" {
                 println!("Patching note {}", title);
@@ -53,11 +54,20 @@ fn get_note(title: &str) {
     let path = Path::new(file_name.as_str());
     // println!("path {}", path.display());
     let mut file = match File::open(&path) {
-        Err(why) => panic!("Error: {}", why),
+        Err(why) => {
+            println!("Error: {}", why);
+            process::exit(1);
+        },
         Ok(file) => file
     };
     let mut text = String::new();
-    file.read_to_string(&mut text).unwrap();
+    match file.read_to_string(&mut text){
+        Ok(_) => {},
+        Err(why) => {
+            println!("Error: {}", why);
+            process::exit(1);
+        },
+    };
     println!("Text:\n{}", text);
 }
 
@@ -85,7 +95,10 @@ fn patch_note(title: &str, text: &str) {
                             .read(true)
                             .append(true)
                             .open(&path) {
-        Err(why) => panic!("Error: {}", why),
+        Err(why) => {
+            println!("Error: {}", why);
+            process::exit(1);
+        },
         Ok(file) => file
     };
     let _ = file.write_all(text.as_bytes()).unwrap();
@@ -94,7 +107,13 @@ fn patch_note(title: &str, text: &str) {
 fn delete_note(title: &str) {
     let file_name = get_file_name(title);
     let path = Path::new(file_name.as_str());
-    fs::remove_file(&path).unwrap();
+    match fs::remove_file(&path){
+        Ok(_) => {},
+        Err(why) => {
+            println!("Error: {}", why);
+            process::exit(1);
+        },
+    }
 }
 
 fn get_file_name(title: &str) -> String {
