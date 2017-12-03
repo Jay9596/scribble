@@ -13,6 +13,9 @@ This commands prints the text of the note with the given title.
 `scribble  help `   
 Displays the help text, i.e. the usage details.
 
+`scribble list `  
+Lists all notes in directory.
+
 `scribble get <title>`  
 This commans GETs the text of the note and prints it.  
 
