@@ -1,5 +1,6 @@
 # Scribble
-Scribble is a simple CLI note taking app written in Rust. It can create, read, edit, and delete notes.
+Scribble is a simple CLI note taking app written in Rust. It can create, read, edit, and delete notes.  
+> Listen to the readme [HERE](https://postcast-app.now.sh/play/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0pheTk1OTYvc2NyaWJibGUvbWFzdGVyL1JFQURNRS5tZA==)  
 
 ## Usage
 Scribble uses the same commands as HTTP verbs.
