@@ -2,11 +2,11 @@
 Scribble is a simple CLI note taking app written in Rust. It can create, read, edit, and delete notes.
 
 ## Usage
-Scribble uses some same commands as HTTP verbs.
+Scribble uses the same commands as HTTP verbs.
 `GET`, `POST`, `PATCH`, `PUT`, `DELETE`.
 
 ```scribble <title>```  
-This commands prints the text of the note with the given title.
+This command prints the text of the note with the given title.
 
 ```scribble <command> [<args>] ```
 ### Commands
@@ -17,7 +17,7 @@ Displays the help text, i.e. the usage details.
 Lists all notes in directory.
 
 `scribble get <title>`  
-This commans GETs the text of the note and prints it.  
+This command GETs the text of the note and prints it.  
 
 `scribble post <title> <text>`  
 This command creats a new note with the same name as title. It will overwrite a note if it already exists, use it with caution.
