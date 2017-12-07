@@ -28,3 +28,6 @@ This command will append the text to the note.
 
 `scribble delete <title>` OR `scribble del <title>`  
 This command will delete the note.
+
+`scribble find <title>`
+This command will search for the note with the given title.
