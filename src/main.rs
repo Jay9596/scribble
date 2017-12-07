@@ -13,7 +13,7 @@ fn main() {
             let title = &args[1];
            match &title[..] {
                "get" | "post" | "patch" | "delete" => {},
-               "list" => get_list(),
+               "list" => print_list(),
                "help" => print_usage(),
                _ => {
                    println!("Fetching note :{}", title);
@@ -28,6 +28,8 @@ fn main() {
             }else if &args[1] == "delete" || &args[1] == "del" {
                 println!("Deleting {}",&args[2]);
                 delete_note(&args[2]);
+            }else if &args[1] == "find" {
+                find_note(&args[2])
             }else{
                 print_usage()
             }
@@ -116,31 +118,54 @@ fn delete_note(title: &str) {
     }
 }
 
+fn find_note(name: &str) {
+    let mut flag = false;
+    let list = get_list();
+    for note in list {
+        if note == name {
+            flag = true;
+            println!("Found note: {}", note);
+        } 
+    }
+    if !flag {
+        println!("No notes found with title '{}'", name);
+        println!("Use `list` command to see available notes");
+    }
+}
+
 fn get_file_name(title: &str) -> String {
     let mut file_name = String::from(title);
     file_name.push_str(".txt");
     file_name
 }
 
-fn get_list() {
+fn print_list() {
     println!("Notes: ");
+    let list = get_list();
+    for name in list {
+        println!("- {}", name);
+    }
+}
+
+fn get_list() -> Vec<String> {
+    let mut list: Vec<String> = Vec::new();
     let directory = Path::new(".");
-    let notes : Vec<std::path::PathBuf> = fs::read_dir(&directory).unwrap()
-                .map(|x| x.unwrap().path())
-               .collect();
-    for note in notes {
-        if let Some(name) = note.file_name() {
-            if let Some(name_str) = name.to_str() {
-                let name = String::from(name_str);
-                let f_name: Vec<&str> = name.split('.').collect();
-                if f_name.len() == 2 {
-                    if f_name[1] == "txt" {
-                        println!("- {}", f_name[0]);
-                    }
+    let files: Vec<std::path::PathBuf> = fs::read_dir(&directory)
+        .unwrap()
+        .map(|x| x.unwrap().path())
+        .collect();
+    for file in files.clone() {
+        if let Some(name) = file.file_name().unwrap().to_str() {
+            let f_name = String::from(name);
+            let name: Vec<&str> = f_name.split('.').collect();
+            if name.len() == 2 {
+                if name[1] == "txt" {
+                    list.push(String::from(name[0]));
                 }
-            } 
+            }
         }
     }
+    list
 }
 
 fn print_usage() {
@@ -154,5 +179,6 @@ post   <title> <text>\tWrites the text in the note.
 get    <title>       \tPrints the note.
 patch  <title> <text>\tUpdates <text> of note.
 delete <title>       \tDelete the note.
+find <title>         \tSearches for the note with given title.
 help                 \tPrints help\n");
 }
